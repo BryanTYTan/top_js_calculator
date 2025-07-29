@@ -1,7 +1,10 @@
 body {
+    min-height: 100vh;
     display: flex;
     align-content: center;
     justify-content: center;
+    flex-flow: column wrap;
+    background-color: bisque;
 }
 
 .calculator_obj {
