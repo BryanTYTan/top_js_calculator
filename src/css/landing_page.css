@@ -8,14 +8,34 @@ body {
 }
 
 .calculator_obj {
-    width: 250px;
-    height: 250px;
+    width: 75%;
+    height: 75%;
     border: 2px solid rgb(96 139 168);
     border-radius: 5px;
     background-color: gray;
+    padding: 10px;
 }
 
 .input_box {
     border: solid 1px black;
     padding: 20px;
+    text-align: center;
+    font-size: 50px;
+    color: white;
+    height: 50px;
+}
+
+.cal_buttons {
+    margin-top: 10px;
+    gap: 10px;
+    display: flex;
+    flex-flow: row wrap;
+    align-content: center;
+    justify-content: center;
+}
+
+.cal_buttons>button {
+    width: 20%;
+    height: 100px;
+    font-size: x-large;
 }
