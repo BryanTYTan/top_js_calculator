@@ -12,8 +12,8 @@ body {
     height: 75%;
     border: 2px solid rgb(96 139 168);
     border-radius: 5px;
-    background-color: gray;
-    padding: 10px;
+    background-color: rgb(64, 64, 64);
+    padding: 25px;
 }
 
 .input_box {
@@ -21,8 +21,9 @@ body {
     padding: 20px;
     text-align: center;
     font-size: 50px;
-    color: white;
+    color: black;
     height: 50px;
+    background-color: rgb(202, 201, 201);
 }
 
 .cal_buttons {
@@ -33,6 +34,10 @@ body {
     align-content: center;
     justify-content: center;
 }
+
+ .header-button {
+    background-color: orange;
+ }
 
 .btn-row {
     display: flex;
