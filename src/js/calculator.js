@@ -2,7 +2,6 @@ let buttons = document.querySelectorAll('.cal-button');
 let func_buttons = document.querySelectorAll('.header-button');
 let input_box = document.querySelector('.input_box');
 let decimal_button = document.querySelector('.decimal-button');
-let cache_input = '';
 
 buttons.forEach(button => {
     button.addEventListener('click', (event) => {
@@ -33,6 +32,17 @@ function all_clear() {
     cache_input = '';
 }
 
+// Given an equation, split it into its pieces and return the calculated value
+function calculate() {
+    eq = input_box.innerHTML;
+
+    seperated_eq = eq.split(/(\+|\-|\*|\/|\%)/)
+
+
+    console.log(seperated_eq);
+}
+
+
 function update_calc(user_choice) {
     let current_input = input_box.innerHTML;
 
@@ -43,29 +53,8 @@ function update_calc(user_choice) {
         input_box.innerHTML += '.';
         disable_decimal();
     }
-    else if (user_choice === "+") {
-        if (current_input === '') {
-            ;
-        }
-        else if (current_input !== '' && cache_input !== '') {
-            // Convert them to numbers and store them
-            let new_num = parseFloat(current_input) + parseFloat(cache_input);
-
-            cache_input = new_num.toString();
-            input_box.innerHTML = cache_input;
-        }
-        else {
-            // Store current value into cache
-            cache_input = current_input;
-            clear_input_box();
-            enable_decimal();
-        }
-    }
     else if (user_choice === '=') {
-        if (current_input === '') {
-            cache_input = 0;
-            input_box.innerHTML = cache_input.toString();
-        }
+        calculate();
     }
     else if (user_choice === 'c' && current_input !== '') {
         clear_input_box();
@@ -75,4 +64,15 @@ function update_calc(user_choice) {
         all_clear();
         enable_decimal();
     }
+    // Assume it is an operator or a number
+    else {
+        // Allow decimal if user choice is an operator
+        if (isNaN(user_choice)) {
+            enable_decimal();
+        }
+
+        // Add value to input
+        input_box.innerHTML += user_choice.toString();
+    }
+
 }
