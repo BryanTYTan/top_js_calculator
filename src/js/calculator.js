@@ -2,6 +2,7 @@ let buttons = document.querySelectorAll('.cal-button');
 let func_buttons = document.querySelectorAll('.header-button');
 let input_box = document.querySelector('.input_box');
 let decimal_button = document.querySelector('.decimal-button');
+const OPERATORS = ['+', '/', '-', '+'];
 
 buttons.forEach(button => {
     button.addEventListener('click', (event) => {
@@ -24,26 +25,46 @@ function enable_decimal() {
 
 
 function clear_input_box() {
-    input_box.innerHTML = '';
+    input_box.innerHTML = null;
 }
 
-function all_clear() {
-    input_box.innerHTML = '';
-    cache_input = '';
+function is_invalid_eq(eq_list) {
+    let invalid = false;
+
+    // check if it ends on an operator
+    if (OPERATORS.includes(eq_list[eq_list.length - 1])) {
+        invalid = true;
+    }
+
+    return invalid;
 }
 
 // Given an equation, split it into its pieces and return the calculated value
 function calculate() {
     eq = input_box.innerHTML;
 
-    seperated_eq = eq.split(/(\+|\-|\*|\/|\%)/)
-
+    let seperated_eq = eq.split(/(\+|\-|\*|\/|\%)/)
+    // Remove ending delimiter
+    seperated_eq = seperated_eq.filter(Boolean);
 
     console.log(seperated_eq);
+
+    if (is_invalid_eq(seperated_eq)) {
+        input_box.innerHTML = "Invalid Equation";
+    } else if (seperated_eq === undefined || seperated_eq.length == 0 ) {
+        input_box.innerHTML = "0";
+    }
+    else {
+        console.log('halo worlds');
+    }
 }
 
 
 function update_calc(user_choice) {
+    if (input_box.innerHTML === 'Invalid Equation') {
+        clear_input_box();
+    }
+
     let current_input = input_box.innerHTML;
 
     if (!isNaN(user_choice)) {
@@ -56,14 +77,11 @@ function update_calc(user_choice) {
     else if (user_choice === '=') {
         calculate();
     }
-    else if (user_choice === 'c' && current_input !== '') {
+    else if (user_choice === 'c' | user_choice === 'ac') {
         clear_input_box();
         enable_decimal();
     }
-    else if (user_choice === 'ac' && current_input !== '') {
-        all_clear();
-        enable_decimal();
-    }
+
     // Assume it is an operator or a number
     else {
         // Allow decimal if user choice is an operator
