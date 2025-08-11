@@ -39,23 +39,44 @@ function is_invalid_eq(eq_list) {
     return invalid;
 }
 
+function calculate(eq_list) {
+    let op_sequence = [];
+    let answer = eq_list.slice();
+    const high_priority = ['/', '*'];
+    const low_priority = ['+', '-'];
+
+    for (var i = 0; i < eq_list.length; i++) {
+        if (high_priority.includes(eq_list[i])) { op_sequence.push(i)}
+    }
+
+    for (var i = 0; i < eq_list.length; i++) {
+        if (low_priority.includes(eq_list[i])) { op_sequence.push(i)}
+    }
+
+    for (var i = 0; i < op_sequence.length; i++) {
+        operator = "0";
+    }
+
+    console.log(op_sequence);
+}
+
 // Given an equation, split it into its pieces and return the calculated value
-function calculate() {
+function pre_cal_check() {
     eq = input_box.innerHTML;
 
     let seperated_eq = eq.split(/(\+|\-|\*|\/|\%)/)
     // Remove ending delimiter
     seperated_eq = seperated_eq.filter(Boolean);
 
-    console.log(seperated_eq);
-
     if (is_invalid_eq(seperated_eq)) {
         input_box.innerHTML = "Invalid Equation";
-    } else if (seperated_eq === undefined || seperated_eq.length == 0 ) {
+    } else if (seperated_eq === undefined || seperated_eq.length == 0) {
         input_box.innerHTML = "0";
     }
-    else {
-        console.log('halo worlds');
+    else if (seperated_eq.length == 1) {
+        input_box.innerHTML = seperated_eq[0];
+    } else {
+        calculate(seperated_eq);
     }
 }
 
@@ -75,7 +96,7 @@ function update_calc(user_choice) {
         disable_decimal();
     }
     else if (user_choice === '=') {
-        calculate();
+        pre_cal_check();
     }
     else if (user_choice === 'c' | user_choice === 'ac') {
         clear_input_box();
