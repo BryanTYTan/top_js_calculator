@@ -3,6 +3,8 @@ let func_buttons = document.querySelectorAll('.header-button');
 let input_box = document.querySelector('.input_box');
 let decimal_button = document.querySelector('.decimal-button');
 const OPERATORS = ['+', '/', '-', '+'];
+const high_priority = ['/', '*'];
+const low_priority = ['+', '-'];
 
 buttons.forEach(button => {
     button.addEventListener('click', (event) => {
@@ -39,25 +41,73 @@ function is_invalid_eq(eq_list) {
     return invalid;
 }
 
+
 function calculate(eq_list) {
-    let op_sequence = [];
-    let answer = eq_list.slice();
-    const high_priority = ['/', '*'];
-    const low_priority = ['+', '-'];
+    // Shunting Yard Algo
+    let output_queue = [];
+    let operator_queue = [];
+
+    console.log(`Eq ${eq_list}`)
 
     for (var i = 0; i < eq_list.length; i++) {
-        if (high_priority.includes(eq_list[i])) { op_sequence.push(i)}
+        let cur_char = eq_list[i];
+
+        console.log(`cur Char ${cur_char}`)
+
+        // It is a number push it to output stack
+        if (!OPERATORS.includes(cur_char)) {
+            output_queue.push(cur_char);
+        } 
+        // It is an operator
+        else {
+            while (true) {
+                let top_op = operator_queue.pop()
+
+                if (!top_op) {
+                    break;
+                }
+
+                // If operator on top of queue has same precedence, pop and push it to output
+                if (high_priority.includes(top_op) && high_priority.includes(cur_char)) {
+                    output_queue.push(top_op);
+                } 
+                // If operator on top of queue has greater precedence, pop and push it to output
+                else if (high_priority.includes && low_priority.includes(cur_char)) {
+                    output_queue.push(top_op);
+                } 
+                // It does not have greater precedence
+                else {
+                    break;
+                }
+            }
+
+            operator_queue.push(cur_char);
+        }
+
+        
     }
 
-    for (var i = 0; i < eq_list.length; i++) {
-        if (low_priority.includes(eq_list[i])) { op_sequence.push(i)}
-    }
+    output_queue.push(...operator_queue);
 
-    for (var i = 0; i < op_sequence.length; i++) {
-        operator = "0";
-    }
+    console.log(output_queue);
 
-    console.log(op_sequence);
+    // let op_sequence = [];
+    // let answer = eq_list.slice();
+
+
+    // for (var i = 0; i < eq_list.length; i++) {
+    //     if (high_priority.includes(eq_list[i])) { op_sequence.push(i) }
+    // }
+
+    // for (var i = 0; i < eq_list.length; i++) {
+    //     if (low_priority.includes(eq_list[i])) { op_sequence.push(i) }
+    // }
+
+    // for (var i = 0; i < op_sequence.length; i++) {
+    //     operator = "0";
+    // }
+
+    // console.log(op_sequence);
 }
 
 // Given an equation, split it into its pieces and return the calculated value
