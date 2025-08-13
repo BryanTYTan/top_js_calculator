@@ -52,8 +52,6 @@ function calculate(eq_list) {
     for (var i = 0; i < eq_list.length; i++) {
         let cur_char = eq_list[i];
 
-        console.log(`cur Char ${cur_char}`);
-
         // It is a number push it to output stack
         if (!OPERATORS.includes(cur_char)) {
             output_queue.push(cur_char);
@@ -82,7 +80,6 @@ function calculate(eq_list) {
                 }
             }
             operator_queue.push(cur_char);
-            console.log(`Operator ${operator_queue}`);
         }
     }
 
@@ -91,23 +88,45 @@ function calculate(eq_list) {
 
     console.log(`end ${output_queue}`);
 
-    // let op_sequence = [];
-    // let answer = eq_list.slice();
+    // Solve The RPN
+    let end_stack = [];
 
+    for (var i = 0; i < output_queue.length; i++) {
+        let cursor = output_queue[i];
 
-    // for (var i = 0; i < eq_list.length; i++) {
-    //     if (high_priority.includes(eq_list[i])) { op_sequence.push(i) }
-    // }
+        // It is a number push it to end stack
+        if (!OPERATORS.includes(cursor)) {
+            end_stack.push(cursor);
+        }
+        // It is an operator
+        else {
+            let operand2 = end_stack.pop();
+            let operand1 = end_stack.pop();
 
-    // for (var i = 0; i < eq_list.length; i++) {
-    //     if (low_priority.includes(eq_list[i])) { op_sequence.push(i) }
-    // }
+            switch (cursor) {
+                case '+':
+                    end_stack.push(operand1 + operand2);
+                    break;
+                case '-':
+                    end_stack.push(operand1 - operand2);
+                    break;
+                case '*':
+                    end_stack.push(operand1 * operand2);
+                    break;
+                case '/':
+                    if (operand2 === 0) {
+                        throw new Error("Division by zero.");
+                    }
+                    end_stack.push(operand1 / operand2);
+                    break;
+                
+                default:
+                    throw new Error(`Unknown operator: ${cursor}`);
+            }
+        }
+    }
 
-    // for (var i = 0; i < op_sequence.length; i++) {
-    //     operator = "0";
-    // }
-
-    // console.log(op_sequence);
+    console.log(end_stack);
 }
 
 // Given an equation, split it into its pieces and return the calculated value
