@@ -2,7 +2,7 @@ let buttons = document.querySelectorAll('.cal-button');
 let func_buttons = document.querySelectorAll('.header-button');
 let input_box = document.querySelector('.input_box');
 let decimal_button = document.querySelector('.decimal-button');
-const OPERATORS = ['+', '/', '-', '+'];
+const OPERATORS = ['+', '/', '-', '*'];
 const high_priority = ['/', '*'];
 const low_priority = ['+', '-'];
 
@@ -47,17 +47,17 @@ function calculate(eq_list) {
     let output_queue = [];
     let operator_queue = [];
 
-    console.log(`Eq ${eq_list}`)
+    console.log(eq_list)
 
     for (var i = 0; i < eq_list.length; i++) {
         let cur_char = eq_list[i];
 
-        console.log(`cur Char ${cur_char}`)
+        console.log(`cur Char ${cur_char}`);
 
         // It is a number push it to output stack
         if (!OPERATORS.includes(cur_char)) {
             output_queue.push(cur_char);
-        } 
+        }
         // It is an operator
         else {
             while (true) {
@@ -70,26 +70,26 @@ function calculate(eq_list) {
                 // If operator on top of queue has same precedence, pop and push it to output
                 if (high_priority.includes(top_op) && high_priority.includes(cur_char)) {
                     output_queue.push(top_op);
-                } 
+                }
                 // If operator on top of queue has greater precedence, pop and push it to output
                 else if (high_priority.includes && low_priority.includes(cur_char)) {
                     output_queue.push(top_op);
-                } 
+                }
                 // It does not have greater precedence
                 else {
+                    operator_queue.push(top_op);
                     break;
                 }
             }
-
             operator_queue.push(cur_char);
+            console.log(`Operator ${operator_queue}`);
         }
-
-        
     }
 
+    operator_queue.reverse();
     output_queue.push(...operator_queue);
 
-    console.log(output_queue);
+    console.log(`end ${output_queue}`);
 
     // let op_sequence = [];
     // let answer = eq_list.slice();
