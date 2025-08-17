@@ -86,8 +86,6 @@ function calculate(eq_list) {
     operator_queue.reverse();
     output_queue.push(...operator_queue);
 
-    console.log(`end ${output_queue}`);
-
     // Solve The RPN
     let end_stack = [];
 
@@ -100,8 +98,8 @@ function calculate(eq_list) {
         }
         // It is an operator
         else {
-            let operand2 = end_stack.pop();
-            let operand1 = end_stack.pop();
+            let operand2 = parseFloat(end_stack.pop());
+            let operand1 = parseFloat(end_stack.pop());
 
             switch (cursor) {
                 case '+':
@@ -126,7 +124,9 @@ function calculate(eq_list) {
         }
     }
 
-    console.log(end_stack);
+    clear_input_box();
+
+    input_box.innerHTML = end_stack[0];
 }
 
 // Given an equation, split it into its pieces and return the calculated value
